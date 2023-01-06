@@ -2,25 +2,27 @@
 
 using namespace std;
 
+string MemberShips[] = { "Standard Adult", "Child", "Senior Citizen"}; 
+
+const short length = size(MemberShips);
+
+int Fees[length] = { 40, 20, 30};
+
 void showMenu()
 {
     cout << "Health Club Membership Menu\n";
-    cout << "1. Standard Adult Membership\n";
-    cout << "2. Child Membership\n";
-    cout << "3. Senior Citizen Membership\n";
-    cout << "4. Quit The Program\n";
+    for (int i = 0; i < length; i++)
+    {
+        cout << i + 1 << ". " << MemberShips[i] << " Membership" << endl;
+    }
+    cout << length + 1 << ". Quit The Program\n";
 }
 
-void showFees(int months, int fees, string memberShip)
-{
-    cout << "\nTotal Charges For " << months << "-Month " << memberShip << " Membership Are $" << fees << ".00\n";
-}
-
-int getChoice(int &choice)
+int getChoice(int& choice)
 {
     cout << "\nEnter Your Choice: ";
     cin >> choice;
-    if (choice > 4 || choice < 1)
+    if (choice > length + 1 || choice < 1)
     {
         cout << "Invalid Input!\n Please Enter A Valid Choice!";
         getChoice(choice);
@@ -40,67 +42,39 @@ int getMonths(int& months)
     return months;
 }
 
-int calcFees(int choice, int months)
+int calcFees(int months, int choice)
 {
-    if (choice == 1)
-    {
-        return months * 40;
-    }
-
-    if (choice == 2)
-    {
-        return months * 20;
-    }
-
-    if (choice == 3)
-    {
-        return months * 30;
-    }
+    return (months * Fees[choice - 1]);
 }
 
-string setMembership(int choice)
+void showFees(int months, int choice, int fees)
 {
-    if (choice == 1)
-    {
-        return "Standard";
-    }
-
-    if (choice == 2)
-    {
-        return "Child";
-    }
-
-    if (choice == 3)
-    {
-        return "Senior Citizen";
-    }
+    cout << "\nTotal Charges For " << months << "-Month " << MemberShips[choice - 1] << " Membership" << " Are $" << fees << ".00\n";
 }
 
 int main()
 {
-   
+
+    int choice, months;
 
     while (true)
     {
         showMenu();
 
-        int choice;
-
         getChoice(choice);
 
-
-        if (choice == 4)
+        if (choice == length + 1)
         {
+            cout << "\nYou Are Welcome!";
             return 0;
         }
 
-        int months;
-
         getMonths(months);
 
-        string memberShip = setMembership(choice);
 
-        showFees(months, calcFees(choice, months), memberShip);
+        showFees(months, choice, calcFees(months, choice));
+
+        cout << "\nYou Are Welcome!\n\n*********\n";
     }
 
     return 0;
